@@ -4,7 +4,7 @@ from education.models import Course, Lesson
 from education.serializers import CourseSerializer, LessonSerializer
 
 
-'''COURSE'''
+'''COURSE ViewSets'''
 # ----------------------------------------------------------------
 
 
@@ -14,7 +14,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
 
 
-'''LESSON'''
+'''LESSON generics'''
 # ----------------------------------------------------------------
 
 
