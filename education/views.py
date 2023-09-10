@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from rest_framework import viewsets, generics
-from education.models import Course, Lesson
-from education.serializers import CourseSerializer, LessonSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
+from education.models import Course, Lesson, Payment
+from education.serializers import CourseSerializer, LessonSerializer, PaymentSerializer
 
 
 '''COURSE ViewSets'''
@@ -44,3 +46,17 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
 class LessonDestroyAPIView(generics.DestroyAPIView):
     '''DELETE Lesson'''
     queryset = Lesson.objects.all()
+
+
+'''PAYMENT generics'''
+# ----------------------------------------------------------------
+
+
+class PaymentListAPIView(generics.ListAPIView):
+    '''READ ALL Payments, Добавлена фильтрация'''
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['course', 'lesson', 'payment_method']
+    ordering_fields = ['payment_date']
