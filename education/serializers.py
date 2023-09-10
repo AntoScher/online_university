@@ -17,8 +17,8 @@ class PaymentSerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     '''Для сериализатора модели Course реализуем поле вывода уроков - lesson'''
-    lesson_count = serializers.SerializerMethodField()
-    lesson = LessonSerializer(many=True, read_only=True)
+    lesson_count = serializers.IntegerField(source='lessons.all.count',  read_only=True)
+    lesson = LessonSerializer(source='lessons', many=True, read_only=True)
 
     class Meta:
         model = Course
