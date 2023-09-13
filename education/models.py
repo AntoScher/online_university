@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import User
 from django.utils import timezone
+from django.conf import settings
 
 # Constants
 NULLABLE = {'blank': True, 'null': True}
@@ -15,6 +16,8 @@ PAYMENT_METHOD = (
 
 class Course(models.Model):
     '''Курс'''
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Владелец', **NULLABLE)
+
     title = models.CharField(max_length=150, verbose_name='Название')
     preview = models.ImageField(**NULLABLE, verbose_name='Превью')
     description = models.TextField(**NULLABLE, verbose_name='Описание')
@@ -33,6 +36,7 @@ class Course(models.Model):
 class Lesson(models.Model):
     '''Урок'''
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс', related_name='lessons', **NULLABLE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Владелец', **NULLABLE)
 
     title = models.CharField(max_length=200, verbose_name='Название')
     preview = models.ImageField(**NULLABLE, verbose_name='Превью')
