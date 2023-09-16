@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets, generics
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
-from education.models import Course, Lesson, Payment
-from education.serializers import CourseSerializer, LessonSerializer, PaymentSerializer
+from education.models import Course, Lesson, Payment, Subscription
+from education.serializers import CourseSerializer, LessonSerializer, PaymentSerializer, SubscriptionSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from education.permissions import CustomPermission
 from education.paginators import CoursePagination
@@ -87,3 +87,18 @@ class PaymentListAPIView(generics.ListAPIView):
     filterset_fields = ['course', 'lesson', 'payment_method']
     ordering_fields = ['payment_date']
     permission_classes = [IsAuthenticated]
+
+
+'''SUBSCRIPTION viewset '''
+# ----------------------------------------------------------------
+
+
+class SubscriptionViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+    serializer_class = SubscriptionSerializer
+    queryset = Subscription.objects.all()
+
+    def perform_create(self, serializer):
+        new_subscription = serializer.save()
+        new_subscription.user = self.request.user
+        new_subscription.save()

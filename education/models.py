@@ -52,6 +52,8 @@ class Lesson(models.Model):
         ordering = ('title',)
 
 
+# Payment
+
 class Payment(models.Model):
     '''Платежи'''
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь', related_name='payments', **NULLABLE)
@@ -68,3 +70,20 @@ class Payment(models.Model):
     class Meta:
         verbose_name = 'платеж'
         verbose_name_plural = 'платежи'
+
+
+# Subscription
+
+class Subscription(models.Model):
+    '''Подписки'''
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Подписка на курс', related_name='subscribe', **NULLABLE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Подписчик', **NULLABLE)
+
+    is_subscribe = models.BooleanField(default=False, verbose_name="Подписка")
+
+    def __str__(self):
+        return f'{self.user} - {self.course}'
+
+    class Meta:
+        verbose_name = 'подписка'
+        verbose_name_plural = 'подписки'
