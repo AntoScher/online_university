@@ -4,10 +4,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from education.models import Course, Lesson, Payment
 from education.serializers import CourseSerializer, LessonSerializer, PaymentSerializer
-
 from rest_framework.permissions import IsAuthenticated, AllowAny
-
 from education.permissions import CustomPermission
+from education.paginators import CoursePagination
 
 
 class MixinQueryset:
@@ -16,7 +15,6 @@ class MixinQueryset:
         if not self.request.user.is_staff:
             queryset = queryset.filter(owner=self.request.user.pk)
         return queryset
-
 
 
 '''COURSE ViewSets'''
@@ -28,6 +26,7 @@ class CourseViewSet(MixinQueryset, viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
     permission_classes = [CustomPermission]
+    pagination_class = CoursePagination
 
     def perform_create(self, serializer):
         new_course = serializer.save(owner=self.request.user)
@@ -54,7 +53,7 @@ class LessonListAPIView(MixinQueryset, generics.ListAPIView):
     '''READ ALL Lesson'''
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-
+    pagination_class = CoursePagination
 
 
 class LessonRetrieveAPIView(MixinQueryset, generics.RetrieveAPIView):

@@ -19,6 +19,7 @@ class IsOwnerOrStaff(BasePermission):
 # ----------------------------------------------------------------
 
 class CustomPermission(BasePermission):
+    '''Модератор имеет право смотреть и редактировать контент'''
     def has_permission(self, request, view):
         if not request.user.is_superuser and not request.user.is_staff:
             return True

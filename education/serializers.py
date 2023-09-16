@@ -1,11 +1,13 @@
 from rest_framework import serializers
 from education.models import Course, Lesson, Payment
+from education.validators import YouTubeValidator
 
 
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = '__all__'
+        validators = [YouTubeValidator(field=['title', 'description', 'link_video'])]
 
 
 class PaymentSerializer(serializers.ModelSerializer):
@@ -23,6 +25,7 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ['title', 'preview', 'description', 'lesson_count', 'lesson']
+        validators = [YouTubeValidator(field=['title', 'description'])]
 
     @staticmethod
     def get_lesson_count(instanse):
