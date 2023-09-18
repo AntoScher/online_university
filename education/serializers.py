@@ -7,7 +7,7 @@ class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = '__all__'
-        validators = [YouTubeValidator(field=['title', 'description', 'link_video'])]
+        validators = [YouTubeValidator(field='link_video')]
 
 
 class PaymentSerializer(serializers.ModelSerializer):
@@ -25,7 +25,7 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ['title', 'preview', 'description', 'lesson_count', 'lesson']
-        validators = [YouTubeValidator(field=['title', 'description'])]
+        validators = [YouTubeValidator(field='description')]
 
     @staticmethod
     def get_lesson_count(instanse):
