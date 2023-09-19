@@ -25,7 +25,6 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ['title', 'preview', 'description', 'lesson_count', 'lesson']
-        validators = [YouTubeValidator(field='description')]
 
     @staticmethod
     def get_lesson_count(instanse):
