@@ -7,7 +7,7 @@ class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = '__all__'
-        validators = [YouTubeValidator(field='link_video')]
+        #validators = [YouTubeValidator(field='link_video')]
 
 
 class PaymentSerializer(serializers.ModelSerializer):
