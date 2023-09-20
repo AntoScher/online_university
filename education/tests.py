@@ -59,7 +59,7 @@ class EducationTestCase(APITestCase):
         print(response.json())
 
         self.assertEqual(
-            Lesson.objects.get(pk=2).title,
+            Lesson.objects.get(pk=self.lesson.pk).title,
             response.json().get('results')[0].get('title'))
 
     def test_retrieve_lesson(self):
@@ -105,7 +105,7 @@ class EducationTestCase(APITestCase):
         )
 
         self.assertTrue(
-            Lesson.objects.get(pk=2).title,
+            Lesson.objects.get(pk=self.lesson.pk).title,
             data.get('title')
         )
 
