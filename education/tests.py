@@ -39,6 +39,14 @@ class EducationTestCase(APITestCase):
 
     def test_list_lesson(self):
         '''Тест READ LIST lesson'''
+
+        self.lesson = Lesson.objects.create(
+            title='list test lesson',
+            description='list lesson description',
+            course=self.course,
+            owner=self.user
+        )
+
         response = self.client.get(
             '/lesson/'
         )
@@ -51,7 +59,7 @@ class EducationTestCase(APITestCase):
         print(response.json())
 
         self.assertEqual(
-            Lesson.objects.get(pk=1).title,
+            Lesson.objects.get(pk=2).title,
             response.json().get('results')[0].get('title'))
 
     def test_retrieve_lesson(self):
