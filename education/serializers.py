@@ -19,13 +19,16 @@ class PaymentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_payment_stripe(self, instance):
-        if self.request.stream.method == 'POST':
+
+        request = self.context.get('request')
+
+        if request.stream.method == 'POST':
             stripe_id = create_payment(int(instance.payment_amount))
             obj_payments = Payment.objects.get(id=instance.id)
             obj_payments.stripe_id = stripe_id
             obj_payments.save()
             return retrieve_payment(stripe_id)
-        if self.request.stream.method == 'GET':
+        if request.stream.method == 'GET':
             if not instance.stripe_id:
                 return None
             return retrieve_payment(instance.stripe_id)
