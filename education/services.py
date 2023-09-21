@@ -1,5 +1,4 @@
 import requests
-from requests import Response
 from config.settings import STRIPE_API_KEY
 
 
