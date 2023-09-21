@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from education.models import Course, Lesson, Payment, Subscription
 from education.validators import YouTubeValidator
+from education.services import create_payment, retrieve_payment
 
 
 class LessonSerializer(serializers.ModelSerializer):
@@ -11,10 +12,23 @@ class LessonSerializer(serializers.ModelSerializer):
 
 
 class PaymentSerializer(serializers.ModelSerializer):
+    payment = serializers.SerializerMethodField()
 
     class Meta:
         model = Payment
         fields = '__all__'
+
+    def get_payment_stripe(self, instance):
+        if self.request.stream.method == 'POST':
+            stripe_id = create_payment(int(instance.payment_amount))
+            obj_payments = Payment.objects.get(id=instance.id)
+            obj_payments.stripe_id = stripe_id
+            obj_payments.save()
+            return retrieve_payment(stripe_id)
+        if self.request.stream.method == 'GET':
+            if not instance.stripe_id:
+                return None
+            return retrieve_payment(instance.stripe_id)
 
 
 class CourseSerializer(serializers.ModelSerializer):

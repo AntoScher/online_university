@@ -63,6 +63,7 @@ class Payment(models.Model):
     payment_date = models.DateField(default=timezone.now, verbose_name='Дата оплаты')
     payment_amount = models.PositiveIntegerField(verbose_name='Сумма оплаты')
     payment_method = models.CharField(max_length=15, choices=PAYMENT_METHOD, verbose_name='Способ оплаты')
+    stripe_id = models.CharField(max_length=255, verbose_name='id платежа на stripe', **NULLABLE)
 
     def __str__(self):
         return f'{self.user} - {self.payment_date} - {self.payment_amount}'
