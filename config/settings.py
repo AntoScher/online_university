@@ -175,3 +175,11 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 # Часовой пояс для работы Celery
 #CELERY_TIMEZONE = "Australia/Tasmania"
+
+# CELERY_BEAT
+CELERY_BEAT_SCHEDULE = {
+    'user_activity_check': {
+        'task': 'users.tasks.user_activity_check',
+        'schedule': timedelta(minutes=10),
+    },
+}
