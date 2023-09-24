@@ -7,6 +7,7 @@ from education.serializers import CourseSerializer, LessonSerializer, PaymentSer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from education.permissions import CustomPermission
 from education.paginators import CoursePagination
+from education.tasks import send_update_course
 
 
 class MixinQueryset:
@@ -32,6 +33,8 @@ class CourseViewSet(MixinQueryset, viewsets.ModelViewSet):
         new_course = serializer.save(owner=self.request.user)
         new_course.owner = self.request.user
         new_course.save()
+        if new_course:
+            send_update_course.delay(new_course.course.id)
 
 
 '''LESSON generics'''
@@ -47,6 +50,8 @@ class LessonCreateAPIView(generics.CreateAPIView):
         new_lesson = serializer.save(owner=self.request.user)
         new_lesson.owner = self.request.user
         new_lesson.save()
+        if new_lesson:
+            send_update_course.delay(new_lesson.course.id)
 
 
 class LessonListAPIView(MixinQueryset, generics.ListAPIView):
@@ -66,6 +71,13 @@ class LessonUpdateAPIView(MixinQueryset, generics.UpdateAPIView):
     '''UPDATE PUT AND PATCH Lesson'''
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
+
+    def perform_update(self, serializer):
+        new_lesson = serializer.save(owner=self.request.user)
+        new_lesson.owner = self.request.user
+        new_lesson.save()
+        if new_lesson:
+            send_update_course.delay(new_lesson.course.id)
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
