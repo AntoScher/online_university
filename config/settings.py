@@ -150,5 +150,27 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
+# Key for STRIPE
 STRIPE_API_KEY = 'sk_test_51NsmSjFTI05Q8zUVEiUfi3w6NZY3BFvTaOZEWe2JUnntsfbJfY5U0oz36MfRp0Uef4LAbvL0UYsJu0qjK5y0Pgvk00vjPwA1W2'
 
+
+# EMAIL
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSl = True
+EMAIL_HOST_USER = 'student482skypro@rambler.ru'
+EMAIL_HOST_PASSWORD = '123Kazuha456'
+
+# CELERY
+# URL-адрес брокера сообщений
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+# URL-адрес брокера результатов, также Redis
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+# Отслеживание задач CELERY
+CELERY_TASK_TRACK_STARTED = True
+# Максимальное время на выполнение задачи
+CELERY_TASK_TIME_LIMIT = 30 * 60
+# Часовой пояс для работы Celery
+#CELERY_TIMEZONE = "Australia/Tasmania"
