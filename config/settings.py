@@ -86,9 +86,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'drf_home',
+        'NAME': 'postgres',  # 'drf_home' for drf_homework
         'USER': 'postgres',
-        'PASSWORD': '28101984',
+        'PASSWORD': 'mysecretpassword',  # '28101984' for drf_homework
+        'HOST': 'db'  # HOST only for docker
     }
 }
 
