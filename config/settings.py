@@ -167,7 +167,7 @@ EMAIL_HOST_PASSWORD = '123Kazuha456'
 
 # CELERY
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_BROKER_URL = 'redis://redis:6379/0'  # 'redis://127.0.0.1:6379/0' for hm_drf
 # URL-адрес брокера результатов, также Redis
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
 # Отслеживание задач CELERY

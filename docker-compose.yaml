@@ -4,18 +4,37 @@ services:
   # database POSTGRES
   db:
     image: postgres
+
     environment:
       POSTGRES_PASSWORD: mysecretpassword
       PGDATA: /var/lib/postgresql/data/pgdata
 
+    volumes:
+      - pg_data:/var/lib/postgresql/data/pgdata
+    ports:
+      - '5432:5432'
+
+# тест проверки здоровья БД
+    #healthcheck:
+      #test: [ "CMD-SHELL", "pg_isready" ]
+      #interval: 10s
+      #timeout: 5s
+      #retries: 5
+
   # OUR APP
   app:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    tty: true
+    command: python manage.py migrate && python manage.py runserver 0.0.0.0:8000
     ports:
-      - '8000:8000'
+      - '8001:8000'
+    volumes:
+      - .:/app
     depends_on:
       - db
+      #db: (к тесту проверки здоровья БД)
+        #condition: service_healthy
+
 
   # REDIS
   redis:
@@ -23,3 +42,25 @@ services:
     ports:
       - '6379:6379'
 
+  # CELERY
+  celery:
+    build: .
+    tty: true
+    command: celery -A config worker -l INFO
+    depends_on:
+      - redis
+      - app
+
+  # CELERY-BEAT
+  celery_beat:
+    build: .
+    restart: always
+    tty: true
+    command: celery -A config beat -l INFO -S django
+    depends_on:
+      - redis
+      - app
+
+
+volumes:
+  pg_data:

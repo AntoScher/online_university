@@ -12,6 +12,8 @@
 **Клонировать проект:**
 > https://github.com/svro2022/DRF_homework.git
 
+### Сборка без yaml файла
+
 **Сборка докер образа:**
 > docker build -t my-python-app .
 
@@ -19,6 +21,21 @@
 > docker run my-python-app
 
 <br>
+
+### Сборка с yaml файлом
+
+**Cоздание образа из Dockerfile:**
+> docker-compose build
+
+с запуском контейнера:
+> docker-compose up --build
+
+с запуском конктейнера в фоновом режиме:
+> docker-compose up -d --build
+
+**Запуск контейнера:**
+> docker-compose up
+
 <br>
 <br>
 
