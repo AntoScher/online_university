@@ -12,17 +12,11 @@
 **Клонировать проект:**
 > https://github.com/svro2022/DRF_homework.git
 
-**Cоздание образа из Dockerfile:**
-> docker-compose build
-
-с запуском контейнера:
-> docker-compose up --build
-
-с запуском конктейнера в фоновом режиме:
-> docker-compose up -d --build
+**Сборка докер образа:**
+> docker build -t my-python-app .
 
 **Запуск контейнера:**
-> docker-compose up
+> docker run my-python-app
 
 <br>
 <br>
