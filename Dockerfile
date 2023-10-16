@@ -14,4 +14,4 @@ RUN pip install -r /app/requirements.txt
 COPY . .
 
 # Команда для запуска приложения при старте контейнера
-CMD ["python", "manage.py", "runserver"]
+# CMD ["python", "manage.py", "runserver"]
