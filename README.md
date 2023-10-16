@@ -36,6 +36,9 @@
 **Запуск контейнера:**
 > docker-compose up
 
+**Миграции:**
+> sudo docker-compose exec app python manage.py migrate
+
 <br>
 <br>
 
