@@ -10,7 +10,7 @@
 ### Настройка DRF в Docker
 
 **Клонировать проект:**
->
+> https://github.com/svro2022/online_university.git
 
 ### Сборка без yaml файла
 
